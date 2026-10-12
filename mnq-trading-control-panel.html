@@ -1,0 +1,3173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<meta name="description" content="MNQ D1 H/L Liquidity Raid Institutional Trading Control Panel">
+<meta name="application-name" content="MNQ Institutional Trading Control Panel">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="MNQ Control Panel">
+
+<!-- Embedded PWA manifest -->
+<link rel="manifest" id="pwaManifest">
+
+<title>MNQ Institutional Trading Control Panel</title>
+
+<style>
+:root{
+    --bg:#050b14;
+    --panel:#0a1422;
+    --panel2:#0d1a2b;
+    --panel3:#101f32;
+    --border:#1c3149;
+    --text:#e8f0f8;
+    --muted:#8ca0b5;
+    --cyan:#21d4fd;
+    --blue:#3b82f6;
+    --green:#19e68c;
+    --green2:#0dbb70;
+    --yellow:#f5c84b;
+    --orange:#ff9f43;
+    --red:#ff4d5d;
+    --red2:#c92c3d;
+    --purple:#9b7cff;
+    --shadow:0 18px 50px rgba(0,0,0,.35);
+    --radius:14px;
+}
+
+*{box-sizing:border-box}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    background:
+        radial-gradient(circle at 20% 0%,rgba(33,212,253,.07),transparent 30%),
+        radial-gradient(circle at 90% 10%,rgba(155,124,255,.06),transparent 28%),
+        var(--bg);
+    color:var(--text);
+    font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+    line-height:1.45;
+}
+
+button,input,select,textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    max-width:1500px;
+    margin:auto;
+    padding:18px;
+}
+
+/* HEADER */
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    padding:20px 22px;
+    background:linear-gradient(135deg,#0b1828,#09121e);
+    border:1px solid var(--border);
+    border-radius:18px;
+    box-shadow:var(--shadow);
+    margin-bottom:16px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.brand-icon{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#21d4fd,#3b82f6);
+    color:#00101d;
+    font-weight:900;
+    font-size:18px;
+    box-shadow:0 8px 30px rgba(33,212,253,.2);
+}
+
+.brand h1{
+    font-size:20px;
+    margin:0;
+    letter-spacing:.3px;
+}
+
+.brand p{
+    margin:3px 0 0;
+    color:var(--muted);
+    font-size:12px;
+}
+
+.header-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+/* BUTTONS */
+.btn{
+    border:1px solid var(--border);
+    background:#101e30;
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:9px;
+    font-weight:700;
+    transition:.18s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+    border-color:#365270;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,#1675ff,#3b82f6);
+    border-color:#4187f4;
+}
+
+.btn-success{
+    background:linear-gradient(135deg,#0e9e63,#19e68c);
+    color:#02140d;
+    border-color:#19e68c;
+}
+
+.btn-warning{
+    background:#5b4712;
+    border-color:#806419;
+    color:#ffe39a;
+}
+
+.btn-danger{
+    background:#541b25;
+    border-color:#8e2837;
+    color:#ffd8dd;
+}
+
+.btn-small{
+    padding:7px 10px;
+    font-size:12px;
+}
+
+/* MASTER GATES */
+.master-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    margin-bottom:14px;
+}
+
+.master-card{
+    position:relative;
+    background:linear-gradient(145deg,#0c1929,#09131f);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:17px;
+    overflow:hidden;
+}
+
+.master-card.on{
+    border-color:rgba(25,230,140,.55);
+    box-shadow:0 0 0 1px rgba(25,230,140,.08),0 12px 35px rgba(25,230,140,.05);
+}
+
+.master-card.off{
+    border-color:rgba(255,77,93,.55);
+}
+
+.master-label{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.master-title{
+    font-weight:800;
+    font-size:14px;
+}
+
+.master-sub{
+    font-size:11px;
+    color:var(--muted);
+    margin-top:4px;
+}
+
+.switch{
+    position:relative;
+    width:60px;
+    height:31px;
+    flex:0 0 auto;
+}
+
+.switch input{
+    opacity:0;
+    width:0;
+    height:0;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    border-radius:40px;
+    background:#26384d;
+    transition:.2s;
+    border:1px solid #344b62;
+}
+
+.slider:before{
+    content:"";
+    position:absolute;
+    width:23px;
+    height:23px;
+    left:3px;
+    top:3px;
+    border-radius:50%;
+    background:#9aabba;
+    transition:.2s;
+}
+
+.switch input:checked + .slider{
+    background:#0b744c;
+    border-color:#19e68c;
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(29px);
+    background:#19e68c;
+}
+
+/* STATUS */
+.status-banner{
+    border-radius:12px;
+    padding:15px 18px;
+    font-weight:900;
+    letter-spacing:.3px;
+    margin-bottom:16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.status-no{
+    background:linear-gradient(90deg,#651d28,#35131a);
+    border:1px solid var(--red);
+    color:#ffd9dd;
+}
+
+.status-observe{
+    background:linear-gradient(90deg,#594512,#34290b);
+    border:1px solid var(--yellow);
+    color:#ffeab0;
+}
+
+.status-approved{
+    background:linear-gradient(90deg,#087247,#063b29);
+    border:1px solid var(--green);
+    color:#d7ffec;
+    animation:approvedPulse 1.2s infinite alternate;
+}
+
+@keyframes approvedPulse{
+    from{box-shadow:0 0 5px rgba(25,230,140,.12)}
+    to{box-shadow:0 0 26px rgba(25,230,140,.32)}
+}
+
+.status-meta{
+    font-size:11px;
+    font-weight:600;
+    opacity:.8;
+}
+
+/* SCORE */
+.score-panel{
+    display:grid;
+    grid-template-columns:240px 1fr;
+    gap:18px;
+    margin-bottom:16px;
+}
+
+.score-card,.panel{
+    background:linear-gradient(145deg,#0a1524,#09121e);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+}
+
+.score-card{
+    padding:22px;
+    text-align:center;
+}
+
+.score-number{
+    font-size:58px;
+    line-height:1;
+    font-weight:950;
+    margin:10px 0;
+    background:linear-gradient(135deg,#fff,#8edfff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.score-label{
+    color:var(--muted);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}
+
+.score-grade{
+    margin-top:13px;
+    display:inline-block;
+    padding:6px 11px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:900;
+    background:#16283b;
+}
+
+.score-main{
+    padding:20px;
+}
+
+.progress{
+    height:15px;
+    border-radius:99px;
+    background:#162536;
+    overflow:hidden;
+    border:1px solid #21374d;
+}
+
+.progress-fill{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#3b82f6,#21d4fd);
+    transition:width .35s ease;
+}
+
+.progress-labels{
+    display:flex;
+    justify-content:space-between;
+    margin-top:8px;
+    color:var(--muted);
+    font-size:10px;
+}
+
+.summary-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:8px;
+    margin-top:16px;
+}
+
+.summary-stat{
+    padding:10px;
+    background:#0d1b2b;
+    border:1px solid #1b3046;
+    border-radius:9px;
+}
+
+.summary-stat strong{
+    display:block;
+    font-size:17px;
+}
+
+.summary-stat span{
+    display:block;
+    color:var(--muted);
+    font-size:9px;
+    text-transform:uppercase;
+    margin-top:2px;
+}
+
+/* LAYOUT */
+.section{
+    margin-bottom:16px;
+}
+
+.panel-header{
+    padding:15px 18px;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.panel-title{
+    font-weight:900;
+    font-size:14px;
+}
+
+.panel-subtitle{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.panel-body{
+    padding:18px;
+}
+
+.checklist-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.category{
+    background:#0b1726;
+    border:1px solid #192d43;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.category-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:13px 14px;
+    background:#0e1c2e;
+    border-bottom:1px solid #1a2d42;
+}
+
+.category-title{
+    font-size:12px;
+    font-weight:900;
+}
+
+.category-score{
+    font-size:11px;
+    font-weight:900;
+    color:var(--cyan);
+}
+
+.category-note{
+    color:var(--muted);
+    font-size:10px;
+    padding:9px 14px;
+    border-bottom:1px solid #17283b;
+}
+
+.checklist{
+    padding:6px 0;
+}
+
+.check-row{
+    display:flex;
+    align-items:flex-start;
+    gap:9px;
+    padding:8px 13px;
+    border-bottom:1px solid rgba(28,49,73,.55);
+    cursor:pointer;
+    transition:.12s;
+}
+
+.check-row:last-child{
+    border-bottom:0;
+}
+
+.check-row:hover{
+    background:#0e1d2e;
+}
+
+.check-row input{
+    accent-color:var(--green);
+    width:16px;
+    height:16px;
+    margin-top:2px;
+    flex:0 0 auto;
+}
+
+.check-text{
+    font-size:11px;
+    color:#c8d4df;
+}
+
+.check-row input:checked + .check-text{
+    color:#effff8;
+}
+
+/* HARD FAIL */
+.hard-fail{
+    border-color:#63232e;
+}
+
+.hard-fail .category-head{
+    background:#32141b;
+}
+
+.hardfail-warning{
+    padding:12px 14px;
+    background:#421923;
+    color:#ffb9c0;
+    font-size:11px;
+    font-weight:700;
+}
+
+/* MODELS */
+.model-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.model-card{
+    border:1px solid var(--border);
+    background:#0c1827;
+    border-radius:10px;
+    padding:13px;
+}
+
+.model-card.active{
+    border-color:var(--cyan);
+    box-shadow:0 0 18px rgba(33,212,253,.08);
+}
+
+.model-card h4{
+    margin:0 0 6px;
+    font-size:12px;
+}
+
+.model-card p{
+    color:var(--muted);
+    font-size:10px;
+    min-height:45px;
+    margin:0 0 10px;
+}
+
+.model-radio{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:10px;
+}
+
+/* FORM */
+.trade-form{
+    margin-top:16px;
+    padding:18px;
+    border:1px solid rgba(25,230,140,.3);
+    background:#071b15;
+    border-radius:12px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.form-group label{
+    color:var(--muted);
+    font-size:10px;
+    font-weight:800;
+    text-transform:uppercase;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"],
+select,
+textarea{
+    width:100%;
+    color:var(--text);
+    background:#091522;
+    border:1px solid #263d55;
+    border-radius:8px;
+    padding:10px;
+    outline:none;
+}
+
+input:focus,select:focus,textarea:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 0 2px rgba(33,212,253,.08);
+}
+
+textarea{
+    min-height:85px;
+    resize:vertical;
+}
+
+.full{
+    grid-column:1/-1;
+}
+
+.form-actions{
+    display:flex;
+    gap:9px;
+    flex-wrap:wrap;
+    margin-top:13px;
+}
+
+/* POST TRADE */
+.posttrade{
+    display:none;
+}
+
+.posttrade.visible{
+    display:block;
+}
+
+.post-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.post-section{
+    background:#0b1726;
+    border:1px solid #1b3046;
+    border-radius:11px;
+    overflow:hidden;
+}
+
+.post-section h3{
+    margin:0;
+    padding:12px 14px;
+    background:#0e1d2e;
+    border-bottom:1px solid #1b3046;
+    font-size:12px;
+}
+
+.post-body{
+    padding:10px;
+}
+
+.rating-row{
+    display:grid;
+    grid-template-columns:1fr 80px;
+    gap:8px;
+    align-items:center;
+    padding:7px 2px;
+    border-bottom:1px solid #17293d;
+}
+
+.rating-row:last-child{
+    border-bottom:0;
+}
+
+.rating-row label{
+    font-size:10px;
+}
+
+.rating-row select{
+    padding:7px;
+}
+
+/* HISTORY */
+.history-table-wrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    min-width:1000px;
+    border-collapse:collapse;
+}
+
+th{
+    text-align:left;
+    font-size:9px;
+    text-transform:uppercase;
+    color:#7f95aa;
+    background:#0c1a2a;
+    padding:11px 9px;
+    border-bottom:1px solid var(--border);
+}
+
+td{
+    padding:10px 9px;
+    font-size:10px;
+    border-bottom:1px solid #15283b;
+    color:#c7d3de;
+}
+
+tr:hover td{
+    background:#0c1929;
+}
+
+.badge{
+    display:inline-flex;
+    padding:4px 7px;
+    border-radius:999px;
+    font-size:8px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.badge-green{background:#083d2b;color:#6ff0b8}
+.badge-red{background:#451923;color:#ff9eaa}
+.badge-yellow{background:#493a10;color:#ffdf82}
+.badge-blue{background:#122f55;color:#8cc6ff}
+.badge-purple{background:#2c2250;color:#c4adff}
+
+/* JOURNAL */
+.journal-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.metric-card{
+    padding:14px;
+    border:1px solid var(--border);
+    background:#0b1726;
+    border-radius:11px;
+}
+
+.metric-card strong{
+    display:block;
+    font-size:23px;
+}
+
+.metric-card span{
+    color:var(--muted);
+    font-size:10px;
+}
+
+/* EMPTY */
+.empty{
+    text-align:center;
+    color:var(--muted);
+    padding:30px;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    background:#122235;
+    border:1px solid #2c4b67;
+    color:#e9f4ff;
+    padding:12px 15px;
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    transform:translateY(120px);
+    opacity:0;
+    transition:.25s;
+    z-index:999;
+    font-size:12px;
+    max-width:340px;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+    .summary-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+    .model-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .form-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:800px){
+    .app{
+        padding:10px;
+    }
+
+    .header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .master-grid,
+    .score-panel,
+    .checklist-grid,
+    .post-grid{
+        grid-template-columns:1fr;
+    }
+
+    .score-card{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        align-items:center;
+        text-align:left;
+    }
+
+    .score-number{
+        margin:0;
+        text-align:center;
+    }
+
+    .score-label,
+    .score-grade{
+        margin-left:10px;
+    }
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .journal-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:550px){
+    .brand h1{
+        font-size:16px;
+    }
+
+    .header-actions{
+        width:100%;
+    }
+
+    .header-actions .btn{
+        flex:1;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .model-grid{
+        grid-template-columns:1fr;
+    }
+
+    .summary-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .status-banner{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+}
+
+@media print{
+    body{
+        background:white;
+        color:black;
+    }
+
+    .header-actions,
+    button,
+    .posttrade,
+    #historySection{
+        display:none!important;
+    }
+
+    .panel,.score-card,.master-card,.category{
+        box-shadow:none;
+        border-color:#ccc;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="brand">
+            <div class="brand-icon">MNQ</div>
+            <div>
+                <h1>Institutional Trading Control Panel</h1>
+                <p>D1 H/L Liquidity Raid • ICT Execution Framework • Pre / Entry / Post Trade</p>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <button class="btn btn-small" onclick="newTrade()">＋ New Trade</button>
+            <button class="btn btn-small" onclick="exportCSV()">⇩ Export CSV</button>
+            <button class="btn btn-small" onclick="window.print()">Print</button>
+            <button class="btn btn-small btn-danger" onclick="clearAllHistory()">Clear History</button>
+        </div>
+    </header>
+
+    <!-- CORE MASTER GATES -->
+    <section class="master-grid">
+
+        <div class="master-card off" id="liquidityMasterCard">
+            <div class="master-label">
+                <div>
+                    <div class="master-title">Liquidity Event Occurred</div>
+                    <div class="master-sub">PDH / PDL raid • BSL / SSL sweep confirmed</div>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" id="liquidityMaster" onchange="masterChanged()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="master-card off" id="ictMasterCard">
+            <div class="master-label">
+                <div>
+                    <div class="master-title">Valid M1 ICT Entry Model Present</div>
+                    <div class="master-sub">M1 MSS → displacement → FVG/OB → retracement</div>
+                </div>
+
+                <label class="switch">
+                    <input type="checkbox" id="ictMaster" onchange="masterChanged()">
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- STATUS -->
+    <div id="statusBanner" class="status-banner status-no">
+        <span id="statusText">STATUS: NO TRADE (Missing Core Framework Conditions)</span>
+        <span id="statusMeta">Core gates required</span>
+    </div>
+
+    <!-- SCORE -->
+    <section class="score-panel">
+
+        <div class="score-card">
+            <div>
+                <div class="score-label">Pre-Trade Entry Score</div>
+                <div class="score-number" id="scoreNumber">0%</div>
+            </div>
+
+            <div>
+                <div class="score-grade" id="scoreGrade">NO TRADE</div>
+                <div class="score-label" style="margin-top:8px">100 Point Framework</div>
+            </div>
+        </div>
+
+        <div class="score-main panel">
+            <div class="panel-header" style="padding:0 0 13px;border:0">
+                <div>
+                    <div class="panel-title">Execution Probability Gauge</div>
+                    <div class="panel-subtitle">Score is automatically overridden to 0% when either master gate is OFF.</div>
+                </div>
+            </div>
+
+            <div class="progress">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="progress-labels">
+                <span>0 — NO TRADE</span>
+                <span>60 — B</span>
+                <span>70 — MINIMUM</span>
+                <span>85 — A+</span>
+                <span>100</span>
+            </div>
+
+            <div class="summary-grid">
+                <div class="summary-stat">
+                    <strong id="htfScore">0/20</strong>
+                    <span>HTF Context</span>
+                </div>
+                <div class="summary-stat">
+                    <strong id="dailyScore">0/20</strong>
+                    <span>Daily Liquidity</span>
+                </div>
+                <div class="summary-stat">
+                    <strong id="raidScore">0/20</strong>
+                    <span>Liquidity Raid</span>
+                </div>
+                <div class="summary-stat">
+                    <strong id="m15Score">0/15</strong>
+                    <span>M15 Confirm</span>
+                </div>
+                <div class="summary-stat">
+                    <strong id="m1Score">0/15</strong>
+                    <span>M1 Entry</span>
+                </div>
+                <div class="summary-stat">
+                    <strong id="riskScore">0/10</strong>
+                    <span>Risk Mgmt</span>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PRE-TRADE CHECKLIST -->
+    <section class="section panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">01 — PRE-TRADE INSTITUTIONAL CHECKLIST</div>
+                <div class="panel-subtitle">Complete the framework from W1 → D1 → liquidity → M15 → M1 → risk.</div>
+            </div>
+            <button class="btn btn-small" onclick="uncheckAll()">Reset Checks</button>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="checklist-grid">
+
+                <!-- HTF -->
+                <div class="category">
+                    <div class="category-head">
+                        <div class="category-title">A. HTF Institutional Context</div>
+                        <div class="category-score" id="catHtf">0 / 20</div>
+                    </div>
+
+                    <div class="category-note">
+                        W1 + D1 institutional context. Recommended minimum: 14/20.
+                    </div>
+
+                    <div class="checklist">
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">W1 market structure is clearly identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">W1 HH/HL confirms bullish bias OR LH/LL confirms bearish bias.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">W1 dealing range is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">W1 equilibrium / 50% is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">Current price location is identified as Premium or Discount.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">Major W1 BSL is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">Major W1 SSL is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">Current price has a clear draw on liquidity.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">D1 market structure confirms W1 direction or countertrend condition is understood.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">D1 dealing range is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">D1 equilibrium / 50% is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">D1 Premium / Discount location identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">Major D1 BSL is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">Major D1 SSL is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">D1 demand / supply or major OB is identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="htf">
+                            <span class="check-text">Institutional draw on liquidity is clear.</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- DAILY LIQUIDITY -->
+                <div class="category">
+                    <div class="category-head">
+                        <div class="category-title">B. Daily Liquidity Framework</div>
+                        <div class="category-score" id="catDaily">0 / 20</div>
+                    </div>
+
+                    <div class="category-note">
+                        Mark the daily dealing environment before waiting for the raid.
+                    </div>
+
+                    <div class="checklist">
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">PDH is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">PDL is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Previous Day Range is identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Current HOD is tracked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Current LOD is tracked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">External BSL is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">External SSL is marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Internal liquidity is identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Equal highs / lows are identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Obvious resting stop pools are marked.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Liquidity voids / imbalances are identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="daily">
+                            <span class="check-text">Price is not sitting in the middle of an unimportant range.</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- RAID -->
+                <div class="category">
+                    <div class="category-head">
+                        <div class="category-title">C. Liquidity Raid Confirmation</div>
+                        <div class="category-score" id="catRaid">0 / 20</div>
+                    </div>
+
+                    <div class="category-note">
+                        Only score after price reaches PDH or PDL. Select the scenario below as well.
+                    </div>
+
+                    <div class="checklist">
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Price trades beyond PDH or PDL.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Relevant BSL or SSL is visibly taken.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Sweep produces clear rejection.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Price does not immediately accept beyond the liquidity level.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">M15 closes back above / below the liquidity area.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Displacement follows the raid.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">M15 structure shifts in the intended direction.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Clear FVG / imbalance is created.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Raid occurs at / near a meaningful HTF PD array.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="raid">
+                            <span class="check-text">Primary liquidity target remains logical.</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- M15 -->
+                <div class="category">
+                    <div class="category-head">
+                        <div class="category-title">D. M15 Confirmation</div>
+                        <div class="category-score" id="catM15">0 / 15</div>
+                    </div>
+
+                    <div class="category-note">
+                        M15 determines whether the liquidity raid actually produced a tradable reaction.
+                    </div>
+
+                    <div class="checklist">
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">M15 confirms the liquidity raid.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">M15 shows clear rejection.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">M15 produces displacement.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">Displacement breaks meaningful short-term structure.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">Clean FVG / imbalance is created.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">Displacement agrees with intended trade direction.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">No major opposing liquidity sits immediately before entry.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">Entry is not being taken simply because PDH / PDL was touched.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m15">
+                            <span class="check-text">Market structure is clean enough to execute.</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- M1 -->
+                <div class="category">
+                    <div class="category-head">
+                        <div class="category-title">E. M1 Sniper Entry Model</div>
+                        <div class="category-score" id="catM1">0 / 15</div>
+                    </div>
+
+                    <div class="category-note">
+                        Sequence: Liquidity Sweep → M1 MSS → Displacement → FVG/OB → Retracement.
+                    </div>
+
+                    <div class="checklist">
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">M1 sell-side or buy-side liquidity sweep confirmed.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">M1 bullish / bearish MSS or ChoCH confirmed.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">M1 displacement confirmed.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">M1 FVG / OB created.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">Price retraces into the entry PD array.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">Entry occurs inside the defined PD array.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">Stop can be placed beyond the liquidity sweep.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">Entry provides acceptable R:R.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="m1">
+                            <span class="check-text">No immediate opposing liquidity invalidates setup.</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- RISK -->
+                <div class="category">
+                    <div class="category-head">
+                        <div class="category-title">F. Risk & Trade Management</div>
+                        <div class="category-score" id="catRisk">0 / 10</div>
+                    </div>
+
+                    <div class="category-note">
+                        Risk discipline is part of the 100-point score and is also protected by hard-fail conditions.
+                    </div>
+
+                    <div class="checklist">
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">Stop-loss location is structurally valid.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">Risk per trade is within predetermined account risk.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">Position size is calculated from stop distance.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">Minimum acceptable R:R is available.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">TP is based on liquidity / Fibonacci rather than emotion.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">No major news event creates unacceptable execution risk.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">Daily loss limit has not been reached.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">No previous loss is influencing the current trade.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">No FOMO / revenge motivation is present.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" data-category="risk">
+                            <span class="check-text">I am willing to accept the full stop without moving it.</span>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HARD FAIL CONDITIONS -->
+    <section class="section panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">02 — HARD-FAIL CONDITIONS</div>
+                <div class="panel-subtitle">Checking any item below immediately blocks execution.</div>
+            </div>
+            <span class="badge badge-red">OVERRIDES SCORE</span>
+        </div>
+
+        <div class="hardfail-warning">
+            A hard fail means NO TRADE even if the numerical score is ≥70%.
+        </div>
+
+        <div class="panel-body">
+            <div class="checklist">
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">No PDH / PDL liquidity raid.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">No M15 displacement.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">No M15 structure confirmation.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">No M1 MSS.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">No M1 displacement.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">No identifiable M1 FVG / OB entry.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">Stop placement is arbitrary.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">Risk exceeds predetermined limit.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">Entry is driven by FOMO.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">Entry is designed to recover a previous loss.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">Price has already reached the primary TP.</span>
+                </label>
+
+                <label class="check-row">
+                    <input type="checkbox" class="hard-fail-check" onchange="calculateScore()">
+                    <span class="check-text">Major opposing liquidity is immediately in front of entry.</span>
+                </label>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SCENARIO -->
+    <section class="section panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">03 — TRADE SCENARIO SELECTOR</div>
+                <div class="panel-subtitle">Select the institutional narrative before execution.</div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="model-grid">
+
+                <label class="model-card">
+                    <h4>MODEL 1 — Bullish HTF + PDL Raid</h4>
+                    <p>PDL/SSL sweep → bullish rejection → M15/M1 bullish confirmation → LONG toward PDH.</p>
+                    <div class="model-radio">
+                        <input type="radio" name="scenario" value="Model 1 - Bullish HTF + PDL Raid">
+                        LONG → PDH
+                    </div>
+                </label>
+
+                <label class="model-card">
+                    <h4>MODEL 2 — Bullish HTF + PDH Raid</h4>
+                    <p>PDH/BSL sweep → bearish reaction → M15/M1 bearish confirmation → retracement short.</p>
+                    <div class="model-radio">
+                        <input type="radio" name="scenario" value="Model 2 - Bullish HTF + PDH Raid">
+                        SHORT → 23.6–50%
+                    </div>
+                </label>
+
+                <label class="model-card">
+                    <h4>MODEL 3 — Bearish HTF + PDH Raid</h4>
+                    <p>PDH/BSL sweep → bearish displacement → M1 bearish entry → continuation toward PDL.</p>
+                    <div class="model-radio">
+                        <input type="radio" name="scenario" value="Model 3 - Bearish HTF + PDH Raid">
+                        SHORT → PDL
+                    </div>
+                </label>
+
+                <label class="model-card">
+                    <h4>MODEL 4 — Bearish HTF + PDL Raid</h4>
+                    <p>PDL/SSL sweep → bullish reaction → M1 bullish entry → countertrend retracement.</p>
+                    <div class="model-radio">
+                        <input type="radio" name="scenario" value="Model 4 - Bearish HTF + PDL Raid">
+                        LONG → 23.6–50%
+                    </div>
+                </label>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- OBSERVATION / EXECUTION -->
+    <section class="section panel">
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">04 — EXECUTION CONTROL</div>
+                <div class="panel-subtitle">The system only exposes execution fields after the framework permits a trade.</div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+
+            <div id="observationBox" style="display:block">
+                <div class="status-banner status-observe" style="margin:0">
+                    <span>OBSERVATION MODE</span>
+                    <span class="status-meta">Complete the framework or record why no trade was taken.</span>
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-warning" onclick="logObservation()">Log as Observation</button>
+                </div>
+            </div>
+
+            <div id="tradeForm" class="trade-form" style="display:none">
+
+                <div style="font-weight:900;margin-bottom:12px;color:#bfffe1">
+                    ✓ TRADE ENTRY APPROVED — Complete execution details before logging.
+                </div>
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label>Ticker / Asset</label>
+                        <input id="asset" type="text" value="MNQ" placeholder="MNQ">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Position Size</label>
+                        <input id="positionSize" type="number" min="0" step="1" placeholder="Contracts">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Direction</label>
+                        <select id="direction">
+                            <option value="">Select</option>
+                            <option value="Long">LONG</option>
+                            <option value="Short">SHORT</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Risk %</label>
+                        <input id="riskPercent" type="number" min="0" step="0.01" placeholder="e.g. 0.50">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Entry Price</label>
+                        <input id="entryPrice" type="number" step="0.01" placeholder="Entry">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Stop Loss</label>
+                        <input id="stopPrice" type="number" step="0.01" placeholder="SL">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Take Profit</label>
+                        <input id="tpPrice" type="number" step="0.01" placeholder="TP">
+                    </div>
+
+                    <div class="form-group">
+                        <label>R:R</label>
+                        <input id="rr" type="number" min="0" step="0.01" placeholder="e.g. 2.5">
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Pre-Trade Notes / Institutional Narrative</label>
+                        <textarea id="preTradeNotes" placeholder="What was raided? HTF bias? M15 confirmation? M1 confirmation? FVG/OB? Liquidity target?"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+                    <button class="btn btn-success" onclick="logExecutedTrade()">Log Executed Trade</button>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- POST TRADE -->
+    <section id="postTradeSection" class="section panel posttrade">
+
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">05 — POST-TRADE AUDIT</div>
+                <div class="panel-subtitle">Complete after the position is closed. This updates the same trade record.</div>
+            </div>
+            <span class="badge badge-purple" id="postTradeId">TRADE</span>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="post-grid">
+
+                <!-- EXECUTION -->
+                <div class="post-section">
+                    <h3>A. TRADE EXECUTION AUDIT</h3>
+
+                    <div class="post-body">
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I followed the correct scenario.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I waited for the liquidity raid.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I waited for M15 confirmation.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I waited for M1 MSS.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I waited for M1 displacement.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I entered at the planned FVG / OB / PD array.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I used the planned stop.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I used the planned position size.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="post-execution">
+                            <span class="check-text">I used the planned target.</span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- PSYCHOLOGY -->
+                <div class="post-section">
+                    <h3>B. PSYCHOLOGY AUDIT — 0 No Problem / 1 Minor / 2 Significant</h3>
+
+                    <div class="post-body">
+
+                        <div class="rating-row">
+                            <label>FOMO</label>
+                            <select class="psych" data-name="FOMO">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Revenge Trading</label>
+                            <select class="psych" data-name="Revenge Trading">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Overtrading</label>
+                            <select class="psych" data-name="Overtrading">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Early Entry</label>
+                            <select class="psych" data-name="Early Entry">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Late Entry</label>
+                            <select class="psych" data-name="Late Entry">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Moving SL</label>
+                            <select class="psych" data-name="Moving SL">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Moving TP Emotionally</label>
+                            <select class="psych" data-name="Moving TP Emotionally">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Closing Winner Early</label>
+                            <select class="psych" data-name="Closing Winner Early">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Increasing Risk Emotionally</label>
+                            <select class="psych" data-name="Increasing Risk Emotionally">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="rating-row">
+                            <label>Trading Outside Model</label>
+                            <select class="psych" data-name="Trading Outside Model">
+                                <option value="0">0</option><option value="1">1</option><option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-top:10px;color:var(--muted);font-size:10px">
+                            Psychology Score:
+                            <strong id="psychScore" style="color:var(--cyan)">0 / 20</strong>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- QUALITY -->
+                <div class="post-section">
+                    <h3>C. TRADE QUALITY AUDIT — 10 POINTS</h3>
+
+                    <div class="post-body">
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">HTF bias was correct.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">Liquidity target was correctly identified.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">Liquidity raid occurred.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">M15 confirmation was valid.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">M1 confirmation was valid.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">Entry was technically correct.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">Stop placement was technically correct.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">TP was liquidity-based.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">Risk was controlled.</span>
+                        </label>
+
+                        <label class="check-row">
+                            <input type="checkbox" class="quality">
+                            <span class="check-text">Trade followed the written plan.</span>
+                        </label>
+
+                        <div style="margin-top:10px;color:var(--muted);font-size:10px">
+                            Trade Quality:
+                            <strong id="qualityScore" style="color:var(--cyan)">0 / 10</strong>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- OUTCOME -->
+                <div class="post-section">
+                    <h3>D. OUTCOME CLASSIFICATION</h3>
+
+                    <div class="post-body">
+
+                        <div class="form-group">
+                            <label>Outcome</label>
+
+                            <select id="outcome">
+                                <option value="">Select outcome</option>
+                                <option>A+ WIN — Correct model + correct execution + profit</option>
+                                <option>A+ LOSS — Correct model + correct execution + normal stop-out</option>
+                                <option>A TRADE — Valid ≥70% setup with minor execution imperfection</option>
+                                <option>B TRADE — Setup below ideal quality</option>
+                                <option>RULE BREAK — Trade should not have been taken</option>
+                                <option>FOMO TRADE — Emotional entry</option>
+                                <option>REVENGE TRADE — Entered to recover loss</option>
+                                <option>OVERTRADE — Additional trade without valid setup</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" style="margin-top:10px">
+                            <label>Realized P/L</label>
+                            <input id="realizedPL" type="number" step="0.01" placeholder="Profit / Loss">
+                        </div>
+
+                        <div class="form-group" style="margin-top:10px">
+                            <label>Post-Trade Notes</label>
+                            <textarea id="postNotes" placeholder="What did the market teach you? What should be repeated or corrected?"></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-success" onclick="savePostTrade()">Save Post-Trade Audit</button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section id="historySection" class="section panel">
+
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">06 — CHRONOLOGICAL TRADE HISTORY LOG</div>
+                <div class="panel-subtitle">Every observation and executed trade is permanently stored in this browser until cleared.</div>
+            </div>
+
+            <button class="btn btn-small btn-primary" onclick="exportCSV()">Export CSV</button>
+        </div>
+
+        <div class="history-table-wrap">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Liquidity</th>
+                        <th>M1 ICT Model</th>
+                        <th>Score</th>
+                        <th>Status / Outcome</th>
+                        <th>Asset</th>
+                        <th>Direction</th>
+                        <th>Scenario</th>
+                        <th>P/L</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+
+                <tbody id="historyBody">
+                </tbody>
+
+            </table>
+
+            <div id="emptyHistory" class="empty">
+                No trading decisions logged yet.
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- JOURNAL METRICS -->
+    <section class="section panel">
+
+        <div class="panel-header">
+            <div>
+                <div class="panel-title">07 — PROCESS PERFORMANCE</div>
+                <div class="panel-subtitle">Local journal statistics calculated from saved records.</div>
+            </div>
+        </div>
+
+        <div class="panel-body">
+
+            <div class="journal-grid">
+
+                <div class="metric-card">
+                    <strong id="totalTrades">0</strong>
+                    <span>Total Logged Decisions</span>
+                </div>
+
+                <div class="metric-card">
+                    <strong id="approvedTrades">0</strong>
+                    <span>Approved Trades</span>
+                </div>
+
+                <div class="metric-card">
+                    <strong id="observations">0</strong>
+                    <span>Observations</span>
+                </div>
+
+                <div class="metric-card">
+                    <strong id="avgScore">0%</strong>
+                    <span>Average Score</span>
+                </div>
+
+                <div class="metric-card">
+                    <strong id="winningTrades">0</strong>
+                    <span>A+ / Winning Outcomes</span>
+                </div>
+
+                <div class="metric-card">
+                    <strong id="ruleBreaks">0</strong>
+                    <span>Rule Breaks / Emotional Trades</span>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* ============================================================
+   MNQ INSTITUTIONAL TRADING CONTROL PANEL
+   Single-file / Offline / LocalStorage
+   ============================================================ */
+
+const STORAGE_KEY = "mnqInstitutionalTradingHistory_v1";
+
+let currentTradeId = null;
+let currentApprovedRecord = null;
+
+/* -----------------------------
+   PWA MANIFEST
+------------------------------ */
+
+const manifest = {
+    name: "MNQ Institutional Trading Control Panel",
+    short_name: "MNQ Control",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#050b14",
+    theme_color: "#07111f",
+    orientation: "any",
+    description: "Offline institutional MNQ liquidity raid trading control panel.",
+    icons: []
+};
+
+document.getElementById("pwaManifest").setAttribute(
+    "href",
+    "data:application/manifest+json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(manifest))
+);
+
+/* -----------------------------
+   INITIALIZATION
+------------------------------ */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.querySelectorAll(
+        'input[type="checkbox"][data-category], .hard-fail-check'
+    ).forEach(el => {
+        el.addEventListener("change", calculateScore);
+    });
+
+    document.querySelectorAll(".psych").forEach(el => {
+        el.addEventListener("change", calculatePsychology);
+    });
+
+    document.querySelectorAll(".quality").forEach(el => {
+        el.addEventListener("change", calculateQuality);
+    });
+
+    document.querySelectorAll('input[name="scenario"]').forEach(el => {
+        el.addEventListener("change", () => {
+            document.querySelectorAll(".model-card").forEach(card => {
+                card.classList.remove("active");
+            });
+
+            const card = el.closest(".model-card");
+            if(card) card.classList.add("active");
+        });
+    });
+
+    loadHistory();
+    calculateScore();
+});
+
+/* -----------------------------
+   STORAGE
+------------------------------ */
+
+function getHistory(){
+    try{
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    }catch(e){
+        return [];
+    }
+}
+
+function saveHistory(data){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+/* -----------------------------
+   MASTER GATES
+------------------------------ */
+
+function masterChanged(){
+
+    const liquidity = document.getElementById("liquidityMaster").checked;
+    const ict = document.getElementById("ictMaster").checked;
+
+    updateMasterCard("liquidityMasterCard", liquidity);
+    updateMasterCard("ictMasterCard", ict);
+
+    calculateScore();
+}
+
+function updateMasterCard(id,on){
+    const card = document.getElementById(id);
+
+    card.classList.toggle("on",on);
+    card.classList.toggle("off",!on);
+}
+
+/* -----------------------------
+   SCORE ENGINE
+------------------------------ */
+
+const categoryConfig = {
+    htf:{max:20, element:"catHtf", output:"htfScore"},
+    daily:{max:20, element:"catDaily", output:"dailyScore"},
+    raid:{max:20, element:"catRaid", output:"raidScore"},
+    m15:{max:15, element:"catM15", output:"m15Score"},
+    m1:{max:15, element:"catM1", output:"m1Score"},
+    risk:{max:10, element:"catRisk", output:"riskScore"}
+};
+
+function calculateScore(){
+
+    const liquidity = document.getElementById("liquidityMaster").checked;
+    const ict = document.getElementById("ictMaster").checked;
+
+    let total = 0;
+
+    Object.keys(categoryConfig).forEach(category => {
+
+        const cfg = categoryConfig[category];
+
+        const checks = [
+            ...document.querySelectorAll(
+                'input[type="checkbox"][data-category="' + category + '"]'
+            )
+        ];
+
+        const checked = checks.filter(c => c.checked).length;
+
+        const rawRatio = checks.length
+            ? checked / checks.length
+            : 0;
+
+        const points = rawRatio * cfg.max;
+
+        document.getElementById(cfg.element).textContent =
+            points.toFixed(1).replace(".0","") + " / " + cfg.max;
+
+        document.getElementById(cfg.output).textContent =
+            points.toFixed(1).replace(".0","") + "/" + cfg.max;
+
+        total += points;
+    });
+
+    const hardFails = document.querySelectorAll(
+        ".hard-fail-check:checked"
+    ).length;
+
+    /*
+       CORE HARD LOCK:
+       If either master switch is OFF, score = 0.
+    */
+    if(!liquidity || !ict){
+        total = 0;
+    }
+
+    /*
+       HARD FAIL:
+       Numerical score cannot authorize execution.
+    */
+    const hardFail = hardFails > 0;
+
+    updateScoreUI(total, liquidity, ict, hardFail);
+
+    return {
+        score:Math.round(total),
+        liquidity,
+        ict,
+        hardFail,
+        hardFailCount:hardFails
+    };
+}
+
+/* -----------------------------
+   SCORE UI
+------------------------------ */
+
+function updateScoreUI(score, liquidity, ict, hardFail){
+
+    const scoreNumber = document.getElementById("scoreNumber");
+    const progress = document.getElementById("progressFill");
+    const grade = document.getElementById("scoreGrade");
+    const banner = document.getElementById("statusBanner");
+    const statusText = document.getElementById("statusText");
+    const statusMeta = document.getElementById("statusMeta");
+
+    scoreNumber.textContent = score + "%";
+    progress.style.width = score + "%";
+
+    banner.className = "status-banner";
+
+    /*
+       MASTER GATE FAILURE
+    */
+    if(!liquidity || !ict){
+
+        banner.classList.add("status-no");
+
+        statusText.textContent =
+            "STATUS: NO TRADE (Missing Core Framework Conditions)";
+
+        statusMeta.textContent =
+            !liquidity && !ict
+                ? "Liquidity event + valid M1 ICT model required"
+                : !liquidity
+                    ? "Liquidity event required"
+                    : "Valid M1 ICT entry model required";
+
+        grade.textContent = "NO TRADE";
+        grade.style.color = "#ff8995";
+
+        showObservationMode();
+        return;
+    }
+
+    /*
+       HARD FAIL
+    */
+    if(hardFail){
+
+        banner.classList.add("status-no");
+
+        statusText.textContent =
+            "STATUS: NO TRADE — HARD FAIL CONDITION";
+
+        const count =
+            document.querySelectorAll(".hard-fail-check:checked").length;
+
+        statusMeta.textContent =
+            count + " hard-fail condition" +
+            (count === 1 ? "" : "s") +
+            " detected";
+
+        grade.textContent = "HARD FAIL";
+        grade.style.color = "#ff8995";
+
+        showObservationMode();
+        return;
+    }
+
+    /*
+       <70
+    */
+    if(score < 70){
+
+        banner.classList.add("status-observe");
+
+        statusText.textContent =
+            "STATUS: NO TRADE - LOG AS OBSERVATION ONLY";
+
+        statusMeta.textContent =
+            "Minimum execution score: 70%";
+
+        if(score < 60){
+            grade.textContent = "C TRADE";
+        }else{
+            grade.textContent = "B TRADE";
+        }
+
+        grade.style.color = "#f5c84b";
+
+        showObservationMode();
+        return;
+    }
+
+    /*
+       >=70
+    */
+    banner.classList.add("status-approved");
+
+    statusText.textContent =
+        "STATUS: VALID TRADE ENTRY APPROVED";
+
+    statusMeta.textContent =
+        score >= 85
+            ? "A+ TRADE — highest-quality setup"
+            : "A TRADE — minimum execution threshold met";
+
+    grade.textContent =
+        score >= 85 ? "A+ TRADE" : "A TRADE";
+
+    grade.style.color = "#19e68c";
+
+    showTradeMode();
+}
+
+/* -----------------------------
+   EXECUTION VISIBILITY
+------------------------------ */
+
+function showObservationMode(){
+
+    document.getElementById("observationBox").style.display = "block";
+    document.getElementById("tradeForm").style.display = "none";
+
+    /*
+       Per requirement:
+       trade outcome inputs hidden when score <70 / hard lock.
+    */
+}
+
+function showTradeMode(){
+
+    document.getElementById("observationBox").style.display = "none";
+    document.getElementById("tradeForm").style.display = "block";
+}
+
+/* -----------------------------
+   RESET
+------------------------------ */
+
+function uncheckAll(){
+
+    document.querySelectorAll(
+        'input[type="checkbox"][data-category], .hard-fail-check'
+    ).forEach(el => {
+        el.checked = false;
+    });
+
+    calculateScore();
+    toast("Pre-trade checklist reset.");
+}
+
+function newTrade(){
+
+    currentTradeId = null;
+    currentApprovedRecord = null;
+
+    document.querySelectorAll(
+        'input[type="checkbox"][data-category], .hard-fail-check'
+    ).forEach(el => el.checked = false);
+
+    document.getElementById("liquidityMaster").checked = false;
+    document.getElementById("ictMaster").checked = false;
+
+    document.getElementById("asset").value = "MNQ";
+    document.getElementById("positionSize").value = "";
+    document.getElementById("direction").value = "";
+    document.getElementById("riskPercent").value = "";
+    document.getElementById("entryPrice").value = "";
+    document.getElementById("stopPrice").value = "";
+    document.getElementById("tpPrice").value = "";
+    document.getElementById("rr").value = "";
+    document.getElementById("preTradeNotes").value = "";
+
+    document.querySelectorAll('input[name="scenario"]').forEach(el=>{
+        el.checked = false;
+    });
+
+    document.querySelectorAll(".model-card").forEach(card=>{
+        card.classList.remove("active");
+    });
+
+    document.getElementById("postTradeSection").classList.remove("visible");
+
+    masterChanged();
+    calculateScore();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+    toast("New trade session started.");
+}
+
+/* -----------------------------
+   SCENARIO
+------------------------------ */
+
+function getScenario(){
+
+    const selected =
+        document.querySelector('input[name="scenario"]:checked');
+
+    return selected ? selected.value : "";
+}
+
+/* -----------------------------
+   CHECKLIST SNAPSHOT
+------------------------------ */
+
+function getChecklistSnapshot(){
+
+    const snapshot = {};
+
+    document.querySelectorAll(
+        'input[type="checkbox"][data-category]'
+    ).forEach((el,index)=>{
+
+        snapshot["check_"+index] = {
+            category:el.dataset.category,
+            checked:el.checked,
+            label:el.parentElement
+                .querySelector(".check-text")
+                ?.textContent.trim() || ""
+        };
+
+    });
+
+    return snapshot;
+}
+
+function getHardFailSnapshot(){
+
+    return [...document.querySelectorAll(".hard-fail-check")]
+        .map(el=>({
+            checked:el.checked,
+            label:el.parentElement
+                .querySelector(".check-text")
+                ?.textContent.trim() || ""
+        }));
+}
+
+/* -----------------------------
+   LOG OBSERVATION
+------------------------------ */
+
+function logObservation(){
+
+    const state = calculateScore();
+
+    const record = {
+        id:createId(),
+        timestamp:new Date().toISOString(),
+
+        type:"Observation",
+
+        liquidityStatus:state.liquidity ? "CONFIRMED" : "NOT CONFIRMED",
+        ictStatus:state.ict ? "CONFIRMED" : "NOT CONFIRMED",
+
+        score:state.score,
+
+        statusOutcome:
+            !state.liquidity || !state.ict
+                ? "NO TRADE — CORE GATE"
+                : state.hardFail
+                    ? "NO TRADE — HARD FAIL"
+                    : "OBSERVATION — SCORE <70%",
+
+        asset:"MNQ",
+        direction:"",
+        scenario:getScenario(),
+        positionSize:"",
+        riskPercent:"",
+        entryPrice:"",
+        stopPrice:"",
+        tpPrice:"",
+        rr:"",
+        realizedPL:"",
+
+        preTradeNotes:buildAutomaticObservationNote(state),
+
+        checklist:getChecklistSnapshot(),
+        hardFails:getHardFailSnapshot(),
+
+        postTrade:null
+    };
+
+    const history = getHistory();
+    history.push(record);
+    saveHistory(history);
+
+    loadHistory();
+
+    toast("Observation saved chronologically.");
+
+    /*
+       Reset current decision only after successful save.
+    */
+    currentTradeId = record.id;
+}
+
+/* -----------------------------
+   LOG EXECUTED TRADE
+------------------------------ */
+
+function logExecutedTrade(){
+
+    const state = calculateScore();
+
+    if(
+        !state.liquidity ||
+        !state.ict ||
+        state.score < 70 ||
+        state.hardFail
+    ){
+        toast("Execution blocked by the trading control system.");
+        return;
+    }
+
+    const direction =
+        document.getElementById("direction").value;
+
+    const asset =
+        document.getElementById("asset").value.trim();
+
+    const positionSize =
+        document.getElementById("positionSize").value;
+
+    if(!asset || !positionSize || !direction){
+        toast("Complete Asset, Position Size and Direction first.");
+        return;
+    }
+
+    const record = {
+        id:createId(),
+        timestamp:new Date().toISOString(),
+
+        type:"Executed Trade",
+
+        liquidityStatus:"CONFIRMED",
+        ictStatus:"CONFIRMED",
+
+        score:state.score,
+
+        statusOutcome:
+            state.score >= 85
+                ? "A+ TRADE — APPROVED"
+                : "A TRADE — APPROVED",
+
+        asset,
+        direction,
+        scenario:getScenario(),
+        positionSize,
+
+        riskPercent:
+            document.getElementById("riskPercent").value,
+
+        entryPrice:
+            document.getElementById("entryPrice").value,
+
+        stopPrice:
+            document.getElementById("stopPrice").value,
+
+        tpPrice:
+            document.getElementById("tpPrice").value,
+
+        rr:
+            document.getElementById("rr").value,
+
+        realizedPL:"",
+
+        preTradeNotes:
+            document.getElementById("preTradeNotes").value,
+
+        checklist:getChecklistSnapshot(),
+        hardFails:getHardFailSnapshot(),
+
+        postTrade:null
+    };
+
+    const history = getHistory();
+    history.push(record);
+    saveHistory(history);
+
+    currentTradeId = record.id;
+    currentApprovedRecord = record;
+
+    loadHistory();
+    openPostTrade(record.id);
+
+    toast("Trade logged. Complete the post-trade audit.");
+
+    document.getElementById("postTradeSection").scrollIntoView({
+        behavior:"smooth"
+    });
+}
+
+/* -----------------------------
+   OBSERVATION NOTE
+------------------------------ */
+
+function buildAutomaticObservationNote(state){
+
+    if(!state.liquidity && !state.ict){
+        return "No liquidity event and no valid M1 ICT entry model.";
+    }
+
+    if(!state.liquidity){
+        return "No liquidity event. No trade.";
+    }
+
+    if(!state.ict){
+        return "No valid M1 ICT entry model. No trade.";
+    }
+
+    if(state.hardFail){
+        return "Hard-fail condition detected. Numerical score overridden.";
+    }
+
+    return "Framework conditions present but score below 70%. Observation only.";
+}
+
+/* -----------------------------
+   POST TRADE
+------------------------------ */
+
+function openPostTrade(id){
+
+    currentTradeId = id;
+
+    document.getElementById("postTradeSection")
+        .classList.add("visible");
+
+    document.getElementById("postTradeId")
+        .textContent = id;
+
+    /*
+       Reset post trade controls for this session.
+    */
+    document.querySelectorAll(".post-execution,.quality")
+        .forEach(el=>el.checked=false);
+
+    document.querySelectorAll(".psych")
+        .forEach(el=>el.value="0");
+
+    document.getElementById("outcome").value="";
+    document.getElementById("realizedPL").value="";
+    document.getElementById("postNotes").value="";
+
+    calculatePsychology();
+    calculateQuality();
+}
+
+function calculatePsychology(){
+
+    let total = 0;
+
+    document.querySelectorAll(".psych")
+        .forEach(el=>{
+            total += Number(el.value || 0);
+        });
+
+    document.getElementById("psychScore")
+        .textContent = total + " / 20";
+
+    return total;
+}
+
+function calculateQuality(){
+
+    const total =
+        document.querySelectorAll(".quality:checked").length;
+
+    document.getElementById("qualityScore")
+        .textContent = total + " / 10";
+
+    return total;
+}
+
+function getPostTradeData(){
+
+    const execution =
+        [...document.querySelectorAll(".post-execution")]
+            .map(el=>({
+                checked:el.checked,
+                label:el.parentElement
+                    .querySelector(".check-text")
+                    ?.textContent.trim() || ""
+            }));
+
+    const psychology = {};
+
+    document.querySelectorAll(".psych")
+        .forEach(el=>{
+            psychology[el.dataset.name] = Number(el.value || 0);
+        });
+
+    const quality =
+        [...document.querySelectorAll(".quality")]
+            .map(el=>({
+                checked:el.checked,
+                label:el.parentElement
+                    .querySelector(".check-text")
+                    ?.textContent.trim() || ""
+            }));
+
+    return {
+        execution,
+        psychology,
+        psychologyScore:calculatePsychology(),
+        quality,
+        qualityScore:calculateQuality(),
+
+        outcome:
+            document.getElementById("outcome").value,
+
+        realizedPL:
+            document.getElementById("realizedPL").value,
+
+        notes:
+            document.getElementById("postNotes").value,
+
+        completedAt:new Date().toISOString()
+    };
+}
+
+function savePostTrade(){
+
+    if(!currentTradeId){
+        toast("No trade selected for post-trade audit.");
+        return;
+    }
+
+    const history = getHistory();
+
+    const index =
+        history.findIndex(t=>t.id===currentTradeId);
+
+    if(index === -1){
+        toast("Trade record could not be found.");
+        return;
+    }
+
+    const post = getPostTradeData();
+
+    history[index].postTrade = post;
+
+    /*
+       Update P/L and outcome in main history record.
+    */
+    history[index].realizedPL = post.realizedPL;
+
+    if(post.outcome){
+        history[index].statusOutcome = post.outcome;
+    }
+
+    saveHistory(history);
+    loadHistory();
+
+    toast("Post-trade audit saved to the same trade record.");
+}
+
+/* -----------------------------
+   HISTORY RENDER
+------------------------------ */
+
+function loadHistory(){
+
+    const history = getHistory();
+
+    const body = document.getElementById("historyBody");
+    const empty = document.getElementById("emptyHistory");
+
+    body.innerHTML="";
+
+    if(!history.length){
+        empty.style.display="block";
+        updateMetrics(history);
+        return;
+    }
+
+    empty.style.display="none";
+
+    /*
+       newest first while preserving chronological timestamps.
+    */
+    [...history].reverse().forEach(record=>{
+
+        const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+            <td>${formatDate(record.timestamp)}</td>
+
+            <td>
+                <span class="badge ${
+                    record.liquidityStatus==="CONFIRMED"
+                    ? "badge-green"
+                    : "badge-red"
+                }">
+                    ${escapeHTML(record.liquidityStatus)}
+                </span>
+            </td>
+
+            <td>
+                <span class="badge ${
+                    record.ictStatus==="CONFIRMED"
+                    ? "badge-green"
+                    : "badge-red"
+                }">
+                    ${escapeHTML(record.ictStatus)}
+                </span>
+            </td>
+
+            <td>
+                <span class="badge ${
+                    record.score>=70
+                    ? "badge-green"
+                    : "badge-yellow"
+                }">
+                    ${record.score}%
+                </span>
+            </td>
+
+            <td>
+                <span class="badge ${
+                    record.statusOutcome.includes("APPROVED")
+                        ? "badge-green"
+                        : record.statusOutcome.includes("WIN")
+                            ? "badge-green"
+                            : record.statusOutcome.includes("FAIL") ||
+                              record.statusOutcome.includes("RULE")
+                                ? "badge-red"
+                                : "badge-yellow"
+                }">
+                    ${escapeHTML(record.statusOutcome)}
+                </span>
+            </td>
+
+            <td>${escapeHTML(record.asset || "")}</td>
+            <td>${escapeHTML(record.direction || "")}</td>
+            <td>${escapeHTML(record.scenario || "")}</td>
+            <td>${escapeHTML(record.realizedPL || "")}</td>
+
+            <td>
+                ${escapeHTML(
+                    record.postTrade?.notes ||
+                    record.preTradeNotes ||
+                    ""
+                )}
+            </td>
+        `;
+
+        tr.addEventListener("dblclick",()=>{
+            if(record.postTrade){
+                toast(
+                    "Trade " + record.id +
+                    " already contains a completed post-trade audit."
+                );
+            }else if(record.type==="Executed Trade"){
+                openPostTrade(record.id);
+                document.getElementById("postTradeSection")
+                    .scrollIntoView({behavior:"smooth"});
+            }
+        });
+
+        body.appendChild(tr);
+    });
+
+    updateMetrics(history);
+}
+
+/* -----------------------------
+   METRICS
+------------------------------ */
+
+function updateMetrics(history){
+
+    const total = history.length;
+
+    const approved =
+        history.filter(t=>
+            t.type==="Executed Trade"
+        ).length;
+
+    const observations =
+        history.filter(t=>
+            t.type==="Observation"
+        ).length;
+
+    const avg =
+        total
+            ? history.reduce((sum,t)=>sum + Number(t.score || 0),0) / total
+            : 0;
+
+    const winners =
+        history.filter(t=>
+            (t.postTrade?.outcome || t.statusOutcome || "")
+                .toUpperCase()
+                .includes("WIN")
+        ).length;
+
+    const ruleBreaks =
+        history.filter(t=>{
+            const outcome =
+                (t.postTrade?.outcome || t.statusOutcome || "")
+                    .toUpperCase();
+
+            return (
+                outcome.includes("RULE BREAK") ||
+                outcome.includes("FOMO TRADE") ||
+                outcome.includes("REVENGE TRADE") ||
+                outcome.includes("OVERTRADE")
+            );
+        }).length;
+
+    document.getElementById("totalTrades").textContent=total;
+    document.getElementById("approvedTrades").textContent=approved;
+    document.getElementById("observations").textContent=observations;
+    document.getElementById("avgScore").textContent=Math.round(avg)+"%";
+    document.getElementById("winningTrades").textContent=winners;
+    document.getElementById("ruleBreaks").textContent=ruleBreaks;
+}
+
+/* -----------------------------
+   CSV EXPORT
+------------------------------ */
+
+function exportCSV(){
+
+    const history = getHistory();
+
+    if(!history.length){
+        toast("There is no history to export.");
+        return;
+    }
+
+    const headers = [
+        "Trade ID",
+        "Timestamp",
+        "Type",
+        "Liquidity Status",
+        "M1 ICT Model Status",
+        "Final Score",
+        "Status / Outcome",
+        "Asset",
+        "Direction",
+        "Scenario",
+        "Position Size",
+        "Risk %",
+        "Entry Price",
+        "Stop Loss",
+        "Take Profit",
+        "R:R",
+        "Realized P/L",
+        "Pre-Trade Notes",
+        "Post-Trade Outcome",
+        "Psychology Score",
+        "Trade Quality Score",
+        "Post-Trade Notes"
+    ];
+
+    const rows = history.map(t=>[
+        t.id,
+        t.timestamp,
+        t.type,
+        t.liquidityStatus,
+        t.ictStatus,
+        t.score,
+        t.statusOutcome,
+        t.asset,
+        t.direction,
+        t.scenario,
+        t.positionSize,
+        t.riskPercent,
+        t.entryPrice,
+        t.stopPrice,
+        t.tpPrice,
+        t.rr,
+        t.realizedPL,
+        t.preTradeNotes,
+        t.postTrade?.outcome || "",
+        t.postTrade?.psychologyScore ?? "",
+        t.postTrade?.qualityScore ?? "",
+        t.postTrade?.notes || ""
+    ]);
+
+    const csv = [
+        headers,
+        ...rows
+    ]
+    .map(row =>
+        row.map(csvEscape).join(",")
+    )
+    .join("\r\n");
+
+    const blob = new Blob(
+        [csv],
+        {type:"text/csv;charset=utf-8;"}
+    );
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download =
+        "MNQ_Trading_Control_History_" +
+        new Date().toISOString().slice(0,10) +
+        ".csv";
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
+    toast("Trading history exported to CSV.");
+}
+
+function csvEscape(value){
+
+    if(value === null || value === undefined){
+        return '""';
+    }
+
+    return '"' +
+        String(value)
+            .replace(/"/g,'""')
+            .replace(/\r?\n/g," ") +
+        '"';
+}
+
+/* -----------------------------
+   CLEAR HISTORY
+------------------------------ */
+
+function clearAllHistory(){
+
+    const history = getHistory();
+
+    if(!history.length){
+        toast("History is already empty.");
+        return;
+    }
+
+    const confirmed =
+        confirm(
+            "Delete ALL locally stored trading history?\n\n" +
+            "This cannot be undone."
+        );
+
+    if(!confirmed){
+        return;
+    }
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    loadHistory();
+
+    toast("All local trading history deleted.");
+}
+
+/* -----------------------------
+   UTILITIES
+------------------------------ */
+
+function createId(){
+
+    const date =
+        new Date()
+            .toISOString()
+            .replace(/\D/g,"")
+            .slice(0,14);
+
+    const random =
+        Math.random()
+            .toString(36)
+            .substring(2,7)
+            .toUpperCase();
+
+    return "MNQ-" + date + "-" + random;
+}
+
+function formatDate(iso){
+
+    try{
+        return new Date(iso).toLocaleString();
+    }catch(e){
+        return iso;
+    }
+}
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+let toastTimer;
+
+function toast(message){
+
+    const el =
+        document.getElementById("toast");
+
+    el.textContent=message;
+    el.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer =
+        setTimeout(()=>{
+            el.classList.remove("show");
+        },3000);
+}
+
+/* -----------------------------
+   KEYBOARD SHORTCUTS
+------------------------------ */
+
+document.addEventListener("keydown",e=>{
+
+    /*
+       Ctrl + N = New trade
+       Ctrl + E = Export
+    */
+
+    if(e.ctrlKey && e.key.toLowerCase()==="n"){
+        e.preventDefault();
+        newTrade();
+    }
+
+    if(e.ctrlKey && e.key.toLowerCase()==="e"){
+        e.preventDefault();
+        exportCSV();
+    }
+
+});
+
+/* ============================================================
+   END APPLICATION
+   ============================================================ */
+</script>
+
+</body>
+</html>
